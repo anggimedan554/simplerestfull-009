@@ -9,6 +9,7 @@ package Model;
  *
  * @author Lenovo
  */
+//membuat class id,name,qty.price
 public class Product {
    private String id;
    private String name;

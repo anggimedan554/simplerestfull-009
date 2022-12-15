@@ -27,12 +27,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductServiceController {
    private static Map<String, Product> productRepo = new HashMap<>();
    static {
+       //menambahkan product qty dan price 
       Product honey = new Product();
       honey.setId("1");
       honey.setName("Honey");
       honey.setQty("3");
       honey.setPrice("13000");
       productRepo.put(honey.getId(), honey);
+      
       
       Product almond = new Product();
       almond.setId("2");
@@ -44,11 +46,12 @@ public class ProductServiceController {
    }
   @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
    public ResponseEntity<Object> delete(@PathVariable("id") String id) {
-       
+       //memanggil pesan exception ketika id yang ingin dihapus 
        if(!productRepo.containsKey(id)){
            return new ResponseEntity<>("ID tidak ditemukan untuk delete, cek lagi", HttpStatus.OK);
        }
        else{
+           //ketika id yang ingin dihapus sudah ada
            productRepo.remove(id);
            return new ResponseEntity<>("Product is deleted successsfully", HttpStatus.OK);
        }
@@ -58,11 +61,12 @@ public class ProductServiceController {
    @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
    public ResponseEntity<Object> updateProduct(@PathVariable("id") String id, @RequestBody Product product) { 
        
-       
+       //memanggil pesan exception  ketika id yang akan diupdate tidak tersedia
        if(!productRepo.containsKey(id)){
            return new ResponseEntity<>("ID tidak ditemukan dan di update, cek lagi", HttpStatus.OK);
        }
        else{
+           //fungsi ketika id yang ingin diupdate sudah ada
            productRepo.remove(id);
            product.setId(id);
            productRepo.put(id, product);
@@ -74,11 +78,12 @@ public class ProductServiceController {
    
    @RequestMapping(value = "/products", method = RequestMethod.POST)
    public ResponseEntity<Object> createProduct(@RequestBody Product product) {
-       
+       //digunakan untuk  ketika id yang ingin dibuat sudah ada
        if(productRepo.containsKey(product.getId())){
            return new ResponseEntity<>("Id tidak bisa di duplikat", HttpStatus.OK);
        }
        else{
+           //berfungsi  untuk menambahkan produc
            productRepo.put(product.getId(), product);
            return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
        }
